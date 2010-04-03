@@ -125,19 +125,18 @@ class Layer extends Sprite
 
     public function setBBox(bbox:Rectangle)
     {
-        if (bbox != null) 
-        {
-           var force:Bool = false;
-           if ((this.bbox != null) && (this.center != null) && (this.initialized))
-           {
-	      var ptc = getCenter();
-              if ((ptc.lng != this.center.lng) || (ptc.lat != this.center.lat)) force = true;
-              this.center = ptc;
-           }
-           this.bbox = bbox;
-           this.canvascenter = new Point(this.bbox.x + this.bbox.width/2.0, this.bbox.y + this.bbox.height/2.0);
-           centerUpdated(force);
-        }
+        if (bbox == null) 
+           return;
+       
+        var actcenter:LngLat = null;
+        if ((this.bbox != null) && (this.initialized))
+           actcenter = this.getCenter();
+
+        this.bbox = bbox;
+        this.canvascenter = new Point(this.bbox.x + this.bbox.width/2.0, this.bbox.y + this.bbox.height/2.0);
+
+        if (actcenter != null) 
+           this.setCenter(actcenter);
     }
 
 
