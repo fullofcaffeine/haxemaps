@@ -28,9 +28,9 @@ ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 POSSIBILITY OF SUCH DAMAGE. 
 *******************************************************************************/
 
-package com;
+package haxemap.ui;
 
-import com.Component;
+import haxemap.ui.Component;
 import flash.text.TextField;
 
 class InfoBox extends Component 

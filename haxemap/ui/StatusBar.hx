@@ -1,6 +1,6 @@
 /*******************************************************************************
 Copyright (c) 2010, Zdenek Vasicek (vasicek AT fit.vutbr.cz)
-                    Marek Vavrusa  (marek AT vavrusa.com)
+
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
@@ -28,44 +28,67 @@ ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 POSSIBILITY OF SUCH DAMAGE. 
 *******************************************************************************/
 
-import flash.display.Sprite;
-import flash.events.Event;
-import map.Canvas;
-import map.LngLat;
-import map.TileLayer;
-import map.MapService;
+package haxemap.ui;
+import flash.text.TextField;
+import flash.text.TextFormat;
+import flash.utils.Timer;
+import flash.events.TimerEvent;
+import haxemap.ui.Component;
 
-class Example01 extends Sprite {
+class StatusBar extends Component 
+{
+    var text:TextField;
+    var timer:Timer;
 
-    var canvas:Canvas;
-
-    static public function main()
-    { 
-       var t:Example01 = new Example01();
-       flash.Lib.current.stage.scaleMode = flash.display.StageScaleMode.NO_SCALE;
-       flash.Lib.current.stage.addEventListener(Event.RESIZE, t.stageResized);
-       flash.Lib.current.stage.addChild(t);
-    }
-
-
-    function new()
+    public function new()
     {
+    	var format = new TextFormat();
+        format.font = "Arial";        
+        format.size = 12;
+
+        text = new TextField();
+	text.defaultTextFormat = format;
+        text.selectable = false;
+        text.border = false;
+        text.background = false; 
+        text.textColor = 0x444444;
+        text.autoSize = flash.text.TextFieldAutoSize.LEFT;
+        text.text = '';
+        text.x = 2;
+        text.x = 2;
+        this.addChild(text);
+
+        timer = new Timer(2000, 1);
+	timer.addEventListener(TimerEvent.TIMER, timeOut);
+
         super();
-   
-        canvas = new Canvas(false);
-        canvas.move(0, 0);
-        stageResized(null);
-        canvas.setZoom(3);
-        canvas.setCenter(new LngLat(16.124, 49.124));
-        canvas.addLayer(new TileLayer(new OpenStreetMapService(), 8, false));
-        canvas.initialize();
+    }
+ 
+    public function clear()
+    {
+        text.text = '';
+    }
+      
+    public function setText(s:String)
+    {
+        text.text = s;
 
-        addChild(canvas);
+        if (timer.running)
+           timer.stop();
+        timer.start();
+    }  
+
+    function timeOut(e:flash.events.Event)
+    {
+        clear();
     }
 
-    public function stageResized(e:Event)
+    override function onResize(w:Float, h:Float)
     {
-        canvas.setSize(flash.Lib.current.stage.stageWidth, flash.Lib.current.stage.stageHeight);
+        graphics.clear();
+        graphics.beginFill(0xE0E0E0);
+        graphics.drawRect(0,0,w, h);
+        graphics.endFill();
     }
 
 }

@@ -28,12 +28,12 @@ ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 POSSIBILITY OF SUCH DAMAGE. 
 *******************************************************************************/
 
-package map;
+package haxemap.core;
 
-import map.Tile;
-import map.TileLoader;
-import map.Layer;
-import map.Utils;
+import haxemap.core.Tile;
+import haxemap.core.TileLoader;
+import haxemap.core.Layer;
+import haxemap.core.Utils;
 import flash.events.Event;
 import flash.geom.Point;
 import flash.display.Bitmap;
@@ -230,7 +230,6 @@ class TileLayer extends Layer
 
         if (this.zoom > newZoom)
         {
-
            if (smooth) {
                //smooth zoom - combines four tiles into one
  
@@ -299,6 +298,7 @@ class TileLayer extends Layer
 
            if (smooth) 
            {
+			   
               //smooth zoom - each tile is splited into the four tiles
               var mintx:Int = Std.int((3*this.lx + this.rx + 1) / 4);
               var maxtx:Int = Std.int((3*this.rx + this.lx + 3) / 4);
@@ -473,7 +473,7 @@ class TileLayer extends Layer
 
         try
         {
-	    loader.tidyQueue(((mapservice.invert_x) ? -lx : lx) + basetid.x, ((mapservice.invert_x) ? -rx : rx) + basetid.x, 
+			loader.tidyQueue(((mapservice.invert_x) ? -lx : lx) + basetid.x, ((mapservice.invert_x) ? -rx : rx) + basetid.x, 
                              ((mapservice.invert_y) ? -ty : ty) + basetid.y, ((mapservice.invert_y) ? -by : by) + basetid.y, 
                              zoom + basetid.z
                             );
@@ -499,7 +499,10 @@ class TileLayer extends Layer
                 }
             }
 
-        } catch (unknown : Dynamic) {};
+        } catch (unknown : Dynamic) {
+			
+			trace(unknown);
+		};
 
         loader.enable();
     }
