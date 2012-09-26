@@ -159,7 +159,13 @@ class TileLoader extends EventDispatcher
     var enabled:Int;
     var watchdog:Timer;
 
-    public function new(threads:Int = 18)
+    public function new(
+		#if flash 
+			threads:Int = 18
+		#else 
+			threads:Int = 5
+		#end
+	)
     {
        super();
 
